@@ -1,0 +1,129 @@
+subsection Standard method parameters
+	subsection Mesh
+  		set refinements = 6
+  		set transfer to refinement level = 6
+	end
+  
+	subsection Control flow
+		# compute flag
+	  	set compute solution = true
+	  
+	  	# verbose
+	  	set verbose = true
+	  
+	  	# what solver to use
+	  	set use direct solver = false
+	  
+	  	# renumbering to reduce bandwidth
+	  	set dof renumbering = false
+  	end
+  	
+  	# name of outputfile without ending
+  	set filename output = test-04_NED-RT-Std
+  	
+  	# name of outputfile without ending
+  	set dirname output = data_test-04_NED-RT
+  	
+  	# compare to exact solution
+  	set use exact solution = false
+end
+
+
+subsection Multiscale method parameters
+	subsection Mesh
+  		set global refinements = 2
+  		set local refinements = 4
+	end
+  
+	subsection Control flow
+		# compute flag
+	  	set compute solution = true
+	  
+	  	# verbose
+	  	set verbose = true
+	  	set verbose basis = false
+	  
+	  	# what solver to use
+	  	set use direct solver = false
+	  	set use direct solver basis = false
+	  
+	  	# renumbering to reduce bandwidth
+	  	set dof renumbering = false
+	  	
+	  	# write first basis
+	  	set write first basis = true 
+  	end
+  	
+  	# name of outputfile without ending
+  	set filename output = test-04_NED-RT-Ms
+  	
+  	# name of outputfile without ending
+  	set dirname output = data_test-04_NED-RT
+  	
+  	# compare to exact solution
+  	set use exact solution = false
+end
+
+
+subsection Equation parameters
+	subsection Right-hand side
+		set Function constants  = scale=10
+		
+		set Function expression = scale*x*y*z; scale*x*y*z; scale*x*y*z
+	
+		# The name of the variables as they will be used in the function, separated
+		# by ','.
+		set Variable names      = x,y,z
+	end
+	
+	# Note that the exact solution is only there 
+	# to verify the standard method
+	subsection Exact solution
+		# The exact solution is just a linear function.
+		# The right hand side is computed automatically
+		set a_00 = 1
+		set a_01 = 1
+		set a_02 = 0
+		
+		set a_10 = 0.5
+		set a_11 = 2
+		set a_12 = -1
+		
+		set a_20 = 0
+		set a_21 = -1
+		set a_22 = -1
+		
+		set b_0 = 1
+		set b_1 = 1
+		set b_2 = 1		
+	end
+	
+	subsection Diffusion A
+		set frequency x = 17
+		set frequency y = 16
+		set frequency z = 15
+		
+		# scaling parameter
+		set scale x = 1.0
+		set scale y = 1.0
+		set scale z = 1.0
+		
+		# scaling parameter to set the contrast
+		set alpha x = 0.9
+		set alpha y = 0.9
+		set alpha z = 0.9
+		
+		# Rotate with fixed Euler angles
+		set rotate = true
+	end
+	
+	subsection Diffusion B
+		set frequency = 14
+		set scale = 1
+		set alpha = 0.9
+		
+		# Separate vector valued expressions by ';' as ',' is used internally by the
+		# function parser.
+		set Function expression = scale * (1.0 - alpha * sin(2*pi*frequency*x))
+	end
+end
